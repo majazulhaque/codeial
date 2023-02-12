@@ -1,7 +1,9 @@
 module.exports.home = function(req,res){
-    return res.end('<h1>Express is up for Codeial</h1>');
+    return res.render('home',{
+        title: "Home"
+    });
 }
 
-module.exports.showImage = function(req,res){
-    return res.end('<h1> Profile icon is here</h1>');
-}
+// module.exports.showImage = function(req,res){
+//     return res.end('<h1> Profile icon is here</h1>');
+// }
