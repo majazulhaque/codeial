@@ -1,27 +1,49 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
-module.exports.create = function(req,res){
-    Post.findById(req.body.post, function(err,post){
+module.exports.create = async function(req,res){
+    // Post.findById(req.body.post, function(err,post){
+    //     if(post){
+    //         Comment.create({
+    //             content: req.body.content,
+    //             post: req.body.post,
+    //             user: req.user._id
+    //         }, function(err,comment){
+    //             // handle error
+    //             if(err){
+    //                 console.log('error while creating the comment');
+    //                 return;
+    //             }
+
+    //             post.comments.push(comment);
+    //             post.save();
+
+    //             res.redirect('/');
+    //         });
+    //     }
+    // });
+
+    // Another method.
+    try {
+        let post = await Post.findById(req.body.post);
+
         if(post){
-            Comment.create({
+            let comment = await Comment.create({
                 content: req.body.content,
-                post: req.body.post,
-                user: req.user._id
-            }, function(err,comment){
-                // handle error
-                if(err){
-                    console.log('error while creating the comment');
-                    return;
-                }
-
-                post.comments.push(comment);
-                post.save();
-
-                res.redirect('/');
+                post:req.body.post,
+                user:req.user._id
             });
+
+            post.comments.push(comment);
+            post.save();
+
+            res.redirect('/');
         }
-    });
+        
+    } catch (error) {
+        console.log('Error', err);
+        return;
+    }
 }
 
 module.exports.destroy = function(req,res){
