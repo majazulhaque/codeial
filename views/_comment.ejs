@@ -8,6 +8,18 @@
         <%= comment.content %>
         <br />
         <small> <%= comment.user.name %> </small>
+
+        <!-- CHANGE :: display the likes of this post, if the user is logged in, hten show the link to toggle likes, else, just show the count-->
+      <!--Study about the data attribute-->
+      <small>
+        <% if(locals.user){%>
+          <a href="/likes/toggle/?id=<%=post._id%>&type=Post" data-likes="<%= post.likes.length %>" class="toggle-like-button">
+            <%= post.likes.length %> Likes
+          </a>
+        <% }else{ %>
+          <%= post.likes.length %> Likes
+        <%}%>
+      </small>
     </p>
 
 </li>
